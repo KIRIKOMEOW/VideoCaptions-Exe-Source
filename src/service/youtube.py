@@ -15,6 +15,7 @@ from core.audio import extract_audio
 from core.asr import transcribe_with_asr
 from core.logging import log_debug, log_success, log_warning, log_step
 from core.text import make_safe_filename
+from core.ytdlp import run_yt_dlp
 
 
 YOUTUBE_LANG_PRIORITY = [
@@ -66,10 +67,10 @@ class YouTubeService(SubtitleService):
 
     async def get_info(self, source: str) -> Dict[str, Any]:
         video_id = self._extract_video_id(source)
-        cmd = ['yt-dlp', '--quiet', '--no-progress', '--dump-json', '--no-download'] + self._get_cookie_args() + [source]
+        cmd = ['--quiet', '--no-progress', '--dump-json', '--no-download'] + self._get_cookie_args() + [source]
 
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            result = run_yt_dlp(cmd, capture_output=True, text=True, check=True)
             info = json.loads(result.stdout)
 
             subtitles = list(info.get('subtitles', {}).keys())
@@ -139,12 +140,12 @@ class YouTubeService(SubtitleService):
                 with tempfile.TemporaryDirectory() as temp_dir:
                     output = os.path.join(temp_dir, '%(id)s')
                     cmd = [
-                        'yt-dlp', '--quiet', '--no-progress', '--write-subs', '--write-auto-subs',
+                        '--quiet', '--no-progress', '--write-subs', '--write-auto-subs',
                         '--sub-lang', lang, '--skip-download', '--sub-format', 'json3',
                         '-o', output
                     ] + self._get_cookie_args() + [source]
 
-                    subprocess.run(cmd, capture_output=True, text=True)
+                    run_yt_dlp(cmd, capture_output=True, text=True)
 
                     sub_file = None
                     for f in os.listdir(temp_dir):
@@ -228,12 +229,12 @@ class YouTubeService(SubtitleService):
             log_step("正在下载 YouTube 视频")
 
         cmd = [
-            'yt-dlp', '--quiet', '--no-progress', '-o', filename,
+            '--quiet', '--no-progress', '-o', filename,
             '--format', 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
             '--merge-output-format', 'mp4',
         ] + self._get_cookie_args() + [source]
 
-        result = subprocess.run(cmd, capture_output=True)
+        result = run_yt_dlp(cmd, capture_output=True)
         if result.returncode != 0:
             raise subprocess.CalledProcessError(result.returncode, cmd, stderr=result.stderr.decode('utf-8', errors='ignore'))
 

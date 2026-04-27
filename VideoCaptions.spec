@@ -4,9 +4,7 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
-project_dir = Path.cwd()
-yt_dlp_exe = project_dir / ".venv" / "Scripts" / "yt-dlp.exe"
-binaries = [(str(yt_dlp_exe), ".")] if yt_dlp_exe.exists() else []
+binaries = []
 datas = collect_data_files("faster_whisper")
 excludes = [
     # GUI uses tkinter; avoid pulling optional GUI stacks if dependency hooks see them.

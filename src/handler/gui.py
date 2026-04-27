@@ -233,6 +233,12 @@ class CaptionDownloaderApp(tk.Tk):
 
 
 def main() -> None:
+    if len(sys.argv) > 1 and sys.argv[1] == "--yt-dlp":
+        from yt_dlp import main as yt_dlp_main
+
+        sys.argv = ["yt-dlp", *sys.argv[2:]]
+        raise SystemExit(yt_dlp_main())
+
     _configure_bundled_tools_path()
     app = CaptionDownloaderApp()
     app.mainloop()

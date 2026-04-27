@@ -27,6 +27,7 @@ from core.logging import (
 )
 from core.text import make_safe_filename
 from core.cookie import get_sessdata
+from core.ytdlp import run_yt_dlp
 
 
 API_BASE_URL = "https://api.bilibili.com"
@@ -339,7 +340,8 @@ class BilibiliService(SubtitleService):
         if show_progress:
             log_step("正在下载视频")
 
-        result = subprocess.run(['yt-dlp', '--quiet', '--no-progress', '-o', video_filename, f"https://www.bilibili.com/video/{bvid}"], capture_output=True)
+        cmd = ['--quiet', '--no-progress', '-o', video_filename, f"https://www.bilibili.com/video/{bvid}"]
+        result = run_yt_dlp(cmd, capture_output=True)
         if result.returncode != 0:
             raise subprocess.CalledProcessError(result.returncode, result.args, stderr=result.stderr.decode('utf-8', errors='ignore'))
 
