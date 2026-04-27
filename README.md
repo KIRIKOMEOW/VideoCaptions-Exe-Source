@@ -108,3 +108,7 @@ Supports multiple ASR models with different speed-accuracy trade-offs (base, sma
 ## Notes
 
 This is just a personal-use tool, not a full polished project.  
+<img width="762" height="572" alt="1ea4861b80c610e71ed37aa0d7a0939b" src="https://github.com/user-attachments/assets/dffa20db-b90b-471f-8db1-2c27b25208d3" />
+<img width="760" height="540" alt="80bbbb9c48b3e43f72a1a08a2a713c0f" src="https://github.com/user-attachments/assets/88acdff4-807d-4ab8-b01d-bc5c4354b7f4" />
+
+
