@@ -1,0 +1,69 @@
+[project]
+name = "video-captions"
+version = "0.1.20260405.4"
+description = "视频字幕下载工具，支持 B站和 YouTube，API 获取和 Whisper ASR 生成"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Cian", email = "LuShan123888@gmail.com" }
+]
+keywords = ["video", "captions", "subtitle", "bilibili", "youtube", "mcp", "whisper", "asr", "chinese"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "httpx>=0.28.1",
+    "requests>=2.32.5",
+    "opencc-python-reimplemented>=0.1.7",
+    "urllib3>=2.6.0",
+    "filelock>=3.20.0",
+    "tqdm>=4.66.0",
+    "browser-cookie3>=0.19.0",
+    "yt-dlp>=2026.3.17",
+    "faster-whisper>=1.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/LuShan123888/Video-Captions"
+Repository = "https://github.com/LuShan123888/Video-Captions"
+Issues = "https://github.com/LuShan123888/Video-Captions/issues"
+
+[project.scripts]
+video-captions = "handler.cli:main"
+video-captions-gui = "handler.gui:main"
+video-captions-mcp = "handler.mcp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/core", "src/handler", "src/service"]
+sources = {"src" = ""}
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.0.0",
+    "pytest>=8.0.0",
+    "ruff>=0.9.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
